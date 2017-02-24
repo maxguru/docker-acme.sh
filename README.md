@@ -1,15 +1,10 @@
 # docker-acme.sh
 
-## Preface
-As [acme.sh](https://github.com/Neilpang/acme.sh) said:
-
-> acme.sh is in constant development, so it's strongly recommended to use the latest code.
-
-So, docker-acme.sh is following the version tag rather than master branch.
-
 ## acme.sh and docker-acme.sh
 * [acme.sh](https://github.com/Neilpang/acme.sh) is a client for Let's Encrypt which is written in pure shell script.
 * docker-acme.sh runs acme.sh in docker. That's it.
+
+And, docker-acme.sh is following the version tag rather than master branch.
 
 ## Ways to issue a cert in acme.sh
 acme.sh supports multiple way to issue a cert:
