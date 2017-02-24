@@ -1,4 +1,12 @@
 # docker-acme.sh
+
+## Preface
+As [acme.sh](https://github.com/Neilpang/acme.sh) said:
+
+> acme.sh is in constant development, so it's strongly recommended to use the latest code.
+
+So, docker-acme.sh is following the version tag rather than master branch.
+
 ## acme.sh and docker-acme.sh
 * [acme.sh](https://github.com/Neilpang/acme.sh) is a client for Let's Encrypt which is written in pure shell script.
 * docker-acme.sh runs acme.sh in docker. That's it.
@@ -30,10 +38,10 @@ Run a container:
 ```sh
 shell> docker run
     -d \
-	--name acme.sh \
-	-v $(pwd)/certs:/certs \
-	-v $(pwd)/account:/account \
-	m31271n/acme.sh
+    --name acme.sh \
+    -v $(pwd)/certs:/certs \
+    -v $(pwd)/account:/account \
+    m31271n/acme.sh
 ```
 
 Use above running container to issue a cert, take `m31271n.com` as an example:
