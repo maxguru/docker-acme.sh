@@ -1,6 +1,10 @@
 FROM ubuntu:16.04
 
-RUN { apt-get update && apt-get install -yq curl tar openssl netcat cron && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*; }
+RUN { \
+	apt-get update && apt-get install -yq  --no-install-recommends --no-install-suggests ca-certificates curl tar openssl netcat cron; \
+	apt-get clean; \
+	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*; \
+}
 
 # Internal
 ENV ACME_VERSION 2.6.6
@@ -23,12 +27,6 @@ RUN mkdir -p ${CERT_DIR} ${ACCOUNT_DIR} \
        --useragent "acme.sh in docker" \
     && ln -s ${ACME_DIR}/acme.sh /usr/local/bin \
     && rm ${TEMP_FILE}
-
-RUN { \
-	apt-get purge -y --auto-remove git; \
-	apt-get clean; \
-	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*; \
-}
 
 VOLUME $CERT_DIR
 VOLUME $ACCOUNT_DIR
