@@ -1,6 +1,6 @@
-FROM alpine:3.4
+FROM ubuntu:16.04
 
-RUN apk add --no-cache busybox curl tar openssl netcat-openbsd
+RUN { apt-get update && apt-get install -yq curl tar openssl netcat cron && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*; }
 
 # Internal
 ENV ACME_VERSION 2.6.6
@@ -24,10 +24,16 @@ RUN mkdir -p ${CERT_DIR} ${ACCOUNT_DIR} \
     && ln -s ${ACME_DIR}/acme.sh /usr/local/bin \
     && rm ${TEMP_FILE}
 
+RUN { \
+	apt-get purge -y --auto-remove git; \
+	apt-get clean; \
+	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*; \
+}
+
 VOLUME $CERT_DIR
 VOLUME $ACCOUNT_DIR
 
 COPY docker-entrypoint.sh /
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["crond", "-f"]
+CMD ["cron", "-f"]
