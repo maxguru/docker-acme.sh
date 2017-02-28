@@ -1,32 +1,31 @@
-FROM ubuntu:16.04
+FROM debian:stable
 
-RUN { \
-	apt-get update && apt-get install -yq  --no-install-recommends --no-install-suggests ca-certificates curl tar openssl netcat cron; \
-	apt-get clean; \
-	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*; \
-}
+RUN apt-get update \
+    && apt-get install -yq  --no-install-recommends --no-install-suggests ca-certificates curl tar openssl netcat cron git \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Internal
-ENV ACME_VERSION 2.6.6
 ENV ACME_DIR /acme.sh
 ENV LE_WORKING_DIR $ACME_DIR
-ENV INSTALL_SRC https://raw.githubusercontent.com/Neilpang/acme.sh/${ACME_VERSION}/acme.sh
-ENV TEMP_FILE /tmp/acme.sh
+ENV TEMP_DIR /tmp/acme.sh
 
 # External
 ENV CERT_DIR /certs
 ENV ACCOUNT_DIR /account
 
-RUN mkdir -p ${CERT_DIR} ${ACCOUNT_DIR} \
-    && curl ${INSTALL_SRC} -o ${TEMP_FILE} \
-    && INSTALLONLINE=1 BRANCH=${ACME_VERSION} sh ${TEMP_FILE} \
+RUN git clone --depth 1 https://github.com/Neilpang/acme.sh.git ${TEMP_DIR} \
+    && mkdir -p ${CERT_DIR} ${ACCOUNT_DIR} \
+    && cd ${TEMP_DIR} \
+    && ./acme.sh \
        --install \
        --home ${ACME_DIR} \
-       --certhome ${CERT_DIR} \
+       --cert-home ${CERT_DIR} \
        --accountkey ${ACCOUNT_DIR}/account.key \
        --useragent "acme.sh in docker" \
+       --auto-upgrade 1 \
     && ln -s ${ACME_DIR}/acme.sh /usr/local/bin \
-    && rm ${TEMP_FILE}
+    && rm -rf ${TEMP_DIR}
 
 VOLUME $CERT_DIR
 VOLUME $ACCOUNT_DIR
