@@ -1,7 +1,7 @@
-FROM debian:stable
+FROM debian:stable-slim
 
 RUN apt-get update \
-    && apt-get install -yq  --no-install-recommends --no-install-suggests ca-certificates curl tar openssl netcat cron git \
+    && apt-get install -yq  --no-install-recommends --no-install-suggests ca-certificates curl tar openssl netcat cron \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -14,8 +14,8 @@ ENV TEMP_DIR /tmp/acme.sh
 ENV CERT_DIR /certs
 ENV ACCOUNT_DIR /account
 
-RUN git clone --depth 1 https://github.com/Neilpang/acme.sh.git ${TEMP_DIR} \
-    && mkdir -p ${CERT_DIR} ${ACCOUNT_DIR} \
+RUN mkdir -p ${CERT_DIR} ${ACCOUNT_DIR} ${TEMP_DIR} \
+    && curl -s -L https://github.com/Neilpang/acme.sh/archive/master.tar.gz | tar xzf - --strip 1 -C ${TEMP_DIR} \
     && cd ${TEMP_DIR} \
     && ./acme.sh \
        --install \
