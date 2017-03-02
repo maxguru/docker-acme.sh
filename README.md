@@ -3,7 +3,6 @@
 ## acme.sh and docker-acme.sh
 * [acme.sh](https://github.com/Neilpang/acme.sh) is a client for Let's Encrypt which is written in pure shell script.
 * docker-acme.sh runs acme.sh in docker.
-* docker-acme.sh is following the tag of acme.sh rather than master branch.
 
 ## Ways to issue a cert in acme.sh
 acme.sh supports multiple way to issue a cert:
