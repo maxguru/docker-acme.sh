@@ -1,7 +1,7 @@
 FROM debian:stable-slim
 
 RUN apt-get update \
-    && apt-get install -yq  --no-install-recommends --no-install-suggests ca-certificates curl tar openssl netcat cron \
+    && apt-get install -yq  --no-install-recommends --no-install-suggests ca-certificates curl tar openssl netcat-openbsd cron \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
