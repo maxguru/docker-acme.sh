@@ -1,5 +1,7 @@
 # docker-acme.sh
 
+DEPRECATED: [acme.sh](https://github.com/Neilpang/acme.sh) supports Docker now.
+
 ## acme.sh and docker-acme.sh
 * [acme.sh](https://github.com/Neilpang/acme.sh) is a client for Let's Encrypt which is written in pure shell script.
 * docker-acme.sh runs acme.sh in docker.
