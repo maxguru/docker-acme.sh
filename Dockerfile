@@ -32,5 +32,8 @@ VOLUME $ACCOUNT_DIR
 
 COPY docker-entrypoint.sh /
 
+# workaround for https://github.com/dodrio/docker-acme.sh/issues/3
+RUN crontab -l | sed "s/ --home \"\/acme.sh\"//" | crontab -
+
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["cron", "-f"]
