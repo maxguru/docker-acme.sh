@@ -35,5 +35,8 @@ COPY docker-entrypoint.sh /
 # workaround for https://github.com/dodrio/docker-acme.sh/issues/3
 RUN crontab -l | sed "s/ --home \"\/acme.sh\"//" | crontab -
 
+# fix for missing environment variables
+RUN crontab -l | sed "s/\"\/acme.sh\"\/acme.sh/. \$HOME\/.profile; \"\/acme.sh\"\/acme.sh/" | crontab -
+
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["cron", "-f"]
