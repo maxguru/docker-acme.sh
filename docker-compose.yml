@@ -1,0 +1,9 @@
+version: "3.5"
+
+services:
+  acme-sh:
+    image: maxguru/docker-acme.sh
+    build: .
+    volumes:
+      - ./data/account:/account
+      - ./data/certs:/certs
